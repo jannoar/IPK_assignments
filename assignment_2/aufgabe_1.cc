@@ -6,7 +6,7 @@
 #include <ctime>
 #include <fstream>
 
-int VERSUCHE = 5;
+int VERSUCHE = 10;
 
 // (a)
 std::string verstecken(std::string input) {
@@ -96,15 +96,15 @@ void gameLoop(std::string solution) {
 
 // (f)
 void readFiles(std::vector<std::string>& words) {
+    // Initialization
     std::ifstream file;
-    words.clear();
     std::string line;
+    words.clear();
+
+    // Handling the file and pushing every word to the words vector
     file.open("wortliste.txt");
-    std::srand(std::time(nullptr));
-    // TODO bisher nur "Aachen"
     while (file) {
         std::getline(file, line);
-        std::cout << line << std::endl;
         words.push_back(line);
     }
     file.close();
@@ -114,7 +114,8 @@ void readFiles(std::vector<std::string>& words) {
 int main() {
     std::vector<std::string> words = {"Haus", "Tomate", "Universitaet", "Informatik"};
     readFiles(words);
+
     std::srand(std::time(nullptr));
-    gameLoop(words[std::rand() % 5]);
+    gameLoop(words[std::rand() % words.size() + 1]);
     return 0;
 }
