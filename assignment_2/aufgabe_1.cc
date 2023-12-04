@@ -117,5 +117,6 @@ int main() {
 
     std::srand(std::time(nullptr));
     gameLoop(words[std::rand() % words.size() + 1]);
+
     return 0;
 }
