@@ -35,8 +35,8 @@ void listUsers(std::unordered_map<std::string, size_t> db) {
         std::cout << "{" << pair.first << ": " << pair.second << "}\n";
 }
 
-void changePassword(std::unordered_map<std::string, size_t> db, std::string newPassword) {
-
+void changePassword(std::unordered_map<std::string, size_t> &db, std::string userName, std::string newPassword) {
+    db[userName] = hashPassword(newPassword); 
 }
 
 
@@ -45,10 +45,13 @@ int main() {
     int input;
     std::string userName = "";
     std::string password = ""; 
+    std::string changePW = "";
+    std::string newPassword = "";
 
     while (true) {
         std::cout << "Was möchtest du tun? \n [0] Beenden \n [1] Login\n [2] Registrieren" << std::endl;
         std::cin >> input; 
+        
 
         if (input == 1) {
             std::cout << "Was ist dein Nutzername?" << std::endl;
@@ -56,9 +59,20 @@ int main() {
             std::cout << "Was ist dein Passwort?" << std::endl;
             std::cin >> password;
             if (authenticateUser(userDatabase, userName, password)) {
+                // (e)
                 std::cout << "Du bist erfolgreich eingeloggt." << std::endl;
+                std::cout << "Möchtest du dein Passwort ändern? (ja / nein)" << std::endl;
+                std::cin >> changePW;
+                if (changePW == "ja") {
+                    std::cout << "Was soll dein neues Passwort sein?";
+                    std::cin >> newPassword;
+                    changePassword(userDatabase, userName, newPassword);
+                    std::cout << "Erfolgreich geändert.";
+                }
+                // (d)
                 if (userName == "admin")
                     listUsers(userDatabase);
+
             } else {
                 std::cout << "Nutzername oder Passwort falsch." << std::endl;
             }
