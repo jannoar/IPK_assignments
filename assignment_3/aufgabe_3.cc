@@ -32,6 +32,7 @@ bool readGitter(std::string gitterString, std::string gitterLine, std::vector<st
     return ret;
 }
 
+// (b) 
 void updateCell(bool &cell, int nachbarn) {
     if (cell == false && nachbarn == 3) {
         cell = true;
@@ -72,6 +73,11 @@ void updateGitter(std::vector<std::vector<bool>> spielfeld) {
         }
         // updateCell(spielfeld[i][i]);
     }
+}
+
+// (c)
+void printGame(std::vector<std::vector<bool>> spielfeld) {
+
 }
 
 int main() {
