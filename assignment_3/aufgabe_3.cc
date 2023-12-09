@@ -2,6 +2,8 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <chrono>
+#include <thread>
 
 // (a)
 std::vector<std::vector<bool>> readGame(std::string textFile) {
@@ -53,6 +55,20 @@ void updateCell(bool &cell, int nachbarn) {
 
 }
 
+// (c)
+void printGame(std::vector<std::vector<bool>> spielfeld) {
+    for (std::vector<bool> line : spielfeld) {
+        for (bool value : line) {
+            if (value == true)
+                std::cout << "0";
+            else {
+                std::cout << " ";
+            }    
+        }
+        std::cout << "\n";
+    }
+    
+}
 void updateGitter(std::vector<std::vector<bool>> spielfeld) {
     int actualSize = 0;
     for (auto v : spielfeld)
@@ -60,8 +76,24 @@ void updateGitter(std::vector<std::vector<bool>> spielfeld) {
             actualSize++;
     std::cout << actualSize;
     
-    std::vector<std::vector<bool>> temp = {};
+    std::vector<std::vector<bool>> neuesSpielfeld = {};
     std::vector<int> neighbours = {};
+    std::vector<bool> extraRow= {};
+    std::vector<bool> extraCol = {};
+    for (int i = 0; i < spielfeld[0].size(); ++i)
+        extraRow.push_back(" ");
+        extraCol.push_back(" ");
+    std::cout << "Rows: " << extraRow.size() << std::endl;
+
+    neuesSpielfeld = spielfeld;
+    neuesSpielfeld.insert(spielfeld.begin(), extraRow);
+    for (auto v : spielfeld) {
+        v.insert(v.begin(), " ");
+        v.push_back(" ");
+    }
+    neuesSpielfeld.push_back(extraRow);
+    
+    printGame(neuesSpielfeld);
 
     // Checks neighbours
     for (int i = 0; actualSize; ++i) {
@@ -102,28 +134,20 @@ void updateGitter(std::vector<std::vector<bool>> spielfeld) {
     // updateCell(spielfeld[i][i]);
 }
 
-// (c)
-void printGame(std::vector<std::vector<bool>> spielfeld) {
-    for (std::vector<bool> line : spielfeld) {
-        for (bool value : line) {
-            if (value == true)
-                std::cout << "0";
-            else {
-                std::cout << " ";
-            }    
-        }
-        std::cout << "\n";
-    }
-    
-}
 
 int main() {
-    std::vector<int> a = {1, 2, 3};
-    std::cout << a[-2] << std::endl; 
+    std::vector<bool> a = {true, false, false};
+    // std::cout << a[0] << std::endl; 
     // std::cout << spielfeld.size() << std::endl;
 
-    // printGame(readGame("CGoL.txt"));
-    // updateGitter(readGame("CGoL.txt"));
+    // (d)
+    while (true) {
+        printGame(readGame("CGoL.txt"));
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        std::cout << "\x1B[2J\x1B[H";
+    }
+
+    updateGitter(readGame("CGoL.txt"));
 
     return 0;
 }
