@@ -4,32 +4,40 @@
 #include <vector>
 
 // (a)
-bool readGitter(std::string gitterString, std::string gitterLine, std::vector<std::string> &lines) {
-    bool ret = true;
+std::vector<std::vector<bool>> readGame(std::string textFile) {
+    std::vector<std::vector<bool>> spielfeld = {};
     std::ifstream gitter;
-    gitter.open("CGoL.txt");
+    std::vector<std::string> lines = {};
+    std::string gitterString;
+    std::string gitterLine;
+    gitter.open(textFile);
 
     while (gitter.good()) {
         std::getline(gitter, gitterLine);
         lines.push_back(gitterLine);
-        std::cout << gitterLine << std::endl;
     }
-    for (int i = 0; i < lines.size() - 1; ++i) {
-        // Checks if only viable characters are in the txt
-        for (char character : lines[i]) {
-            if (character != '0' && character != ' ') {
-                std::cout << lines[i] << std::endl;
-                std::cout << character << std::endl;
-                std::cerr << "Dein Spielfeld ist ungültig." << std::endl;
-                return false;
+    int lineSize = lines[0].size();
+
+    for (std::string line : lines) {
+        if (line.size() != lineSize) 
+            return {};
+
+        std::vector<bool> element = {};
+        for (char character : line) {
+            if (character == '0') {
+                element.push_back(true);
+            } else if ( character == ' ') {
+                element.push_back(false);
+            } else {
+                return {};
             }
+
         }
-        if (lines[0].length() != lines[i].length())
-            ret = false;
+        spielfeld.push_back(element);
     }
 
     gitter.close();
-    return ret;
+    return spielfeld;
 }
 
 // (b) 
@@ -46,61 +54,76 @@ void updateCell(bool &cell, int nachbarn) {
 }
 
 void updateGitter(std::vector<std::vector<bool>> spielfeld) {
-    int nachbarn = 0;
+    int actualSize = 0;
+    for (auto v : spielfeld)
+        for (auto a: v)
+            actualSize++;
+    std::cout << actualSize;
+    
+    std::vector<std::vector<bool>> temp = {};
+    std::vector<int> neighbours = {};
+
     // Checks neighbours
-    for (int i = 0; spielfeld.size() - 1; ++i) {
-            nachbarn++;
+    for (int i = 0; actualSize; ++i) {
+        std::cout << "Irgendwas" << std::endl;
+        int nachbarn = 0;
         if (spielfeld[i-1][i]) {
+            std::cout << "y" << std::endl;
             nachbarn++;
         }
         if (spielfeld[i][i-1]) {
+            std::cout << "y" << std::endl;
             nachbarn++;
         }
         if (spielfeld[i-1][i+1]) {
+            std::cout << "y" << std::endl;
             nachbarn++;
         }
         if (spielfeld[i+1][i-1]) {
+            std::cout << "y" << std::endl;
             nachbarn++;
         }
         if (spielfeld[i][i+1]) {
+            std::cout << "y" << std::endl;
             nachbarn++;
         }
         if (spielfeld[i+1][i]) {
+            std::cout << "y" << std::endl;
             nachbarn++;
         }
         if (spielfeld[i+1][i+1]) {
+            std::cout << "y" << std::endl;
             nachbarn++;
         }
-        // updateCell(spielfeld[i][i]);
+        neighbours.push_back(nachbarn);
     }
+    for (auto v : neighbours)
+        std::cout << v << std::endl;
+    // updateCell(spielfeld[i][i]);
 }
 
 // (c)
 void printGame(std::vector<std::vector<bool>> spielfeld) {
-
+    for (std::vector<bool> line : spielfeld) {
+        for (bool value : line) {
+            if (value == true)
+                std::cout << "0";
+            else {
+                std::cout << " ";
+            }    
+        }
+        std::cout << "\n";
+    }
+    
 }
 
 int main() {
-    std::vector<std::string> lines = {};
-    std::string gitterString;
-    std::string gitterLine;
+    std::vector<int> a = {1, 2, 3};
+    std::cout << a[-2] << std::endl; 
+    // std::cout << spielfeld.size() << std::endl;
 
-    readGitter(gitterString, gitterLine, lines);
-    std::vector<std::vector<bool>> spielfeld = {};
-    for (std::string line : lines) {
-        std::vector<bool> element = {};
-        for (char character : line) {
-            if (character == '0') {
-                element.push_back(true);
-            } else if ( character == ' ') {
-                element.push_back(false);
-            }
-
-        }
-        spielfeld.push_back(element);
-    }
-    std::cout << spielfeld.size() << std::endl;
-
+    // printGame(readGame("CGoL.txt"));
+    // updateGitter(readGame("CGoL.txt"));
 
     return 0;
 }

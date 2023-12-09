@@ -15,19 +15,19 @@ std::list<int> reverseList(std::list<int> &inputList) {
 
 // (b)
 std::list<int> zigzag(std::list<int> &inputList) {
+    // init
     std::list<int> temp;
     inputList.sort();
-    for (auto v : inputList)
-        std::cout << v << std::endl;
-
-    while (inputList.size() != 0) {
+    
+    while (inputList.size() != 1) {
         temp.push_back(*(inputList.begin()));
-        temp.push_back(*(inputList.end()));
-        for (auto v : temp)
-            std::cout << v << std::endl;
+        temp.push_back(*(std::prev(inputList.end())));
         inputList.pop_front();
         inputList.pop_back();
     }
+    // push / pop last element
+    temp.push_back(*(inputList.begin()));
+    inputList.pop_front();
     inputList = temp;
 
     return inputList;
@@ -39,13 +39,14 @@ int main() {
     std::list<int> uneven = {5, 1, 7};
     std::list<int> zig = {4,2,7,1,8,3,5};
    
-    /* (a)
     std::list<int> u = reverseList(even);
     for (auto v : u)
         std::cout << v <<  std::endl;
-    */
-
-    zigzag(even);
+    
+    zig = zigzag(zig);
+    std::cout << "zigzagged" << std::endl;
+    for (auto v : zig)
+        std::cout << v << std::endl;
 
     return 0;
 }
