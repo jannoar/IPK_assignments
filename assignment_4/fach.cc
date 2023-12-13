@@ -2,7 +2,7 @@
 #include <string>
 
 Fach::Fach(std::string name, std::string kuerzel, unsigned int ects)
-    : _name(name), _kuerzel(kuerzel), _ects(ects)
+    : _name(name), _kuerzel(kuerzel), _ects(ects), _note(0.0)
 {}
 
 bool Fach::noteEintragen(double note) {
@@ -14,27 +14,26 @@ bool Fach::noteEintragen(double note) {
 }
 
 bool Fach::bestanden() const {
-    return _note <= 4.0 ? true : false;
+    return (this->_note <= 4.0 && this->_note > 0) ? true : false;
 }
 
 double Fach::gewerteteNote() const {
-    return bestanden() ? _ects * _note : 0;
+    return this->bestanden() ? this->_note * this->_ects : 0; 
 }
 
 unsigned int Fach::getECTS() const {
-    return bestanden() ? _ects : 0;
+    return this->bestanden() ? this->_ects : 0;
 }
 
 std::string Fach::getName() const {
-    return _name;
+    return this->_name;
 }
 
 std::string Fach::getKuerzel() const {
-    return _kuerzel;
+    return this->_kuerzel;
 }
 
 std::string Fach::toString() const {
-    std::string str = this->_kuerzel + " " + this->_name + " " + std::to_string(this->_ects) + " " + std::to_string(this->_note);
-    return str;
+    return this->_kuerzel + " " + this->_name + " " + std::to_string(this->_ects) + " " + std::to_string(this->_note);
 }
 

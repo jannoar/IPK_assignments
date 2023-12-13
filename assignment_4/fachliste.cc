@@ -14,22 +14,22 @@ void FachListe::addFach(Fach fach) {
 
 unsigned int FachListe::summeECTS() {
     unsigned int summe = 0;
-    for (Fach i : this->_faecher)
-        summe += i.getECTS();
+    for (Fach f : this->_faecher)
+        summe += f.getECTS();
     return summe;
 }
 
 double FachListe::durchschnitt() {
-    double summeBestanden = 0;
-    double summeNoten = 0;
+    double bestandeneFaecher = 0;
+    double gewerteteNoten = 0;
     for (Fach f : this->_faecher) {
         if (f.bestanden()) {
-            summeBestanden++;
-            summeNoten += f.gewerteteNote();
+            bestandeneFaecher++;
+            gewerteteNoten += f.gewerteteNote();
         }
     }
-
-    return this->_faecher.size() > 0 ? (summeNoten / summeBestanden) : 0;
+    // return this->summeECTS() / bestandeneFaecher;
+    return gewerteteNoten / bestandeneFaecher;
 }
 
 std::vector<std::string> FachListe::list() {
@@ -40,7 +40,7 @@ std::vector<std::string> FachListe::list() {
 }
 
 bool FachListe::noteEintragen(std::string kuerzel, double note) {
-    for (Fach f : this->_faecher) {
+    for (Fach &f : this->_faecher) {
         if (f.getKuerzel() == kuerzel) {
             if (f.noteEintragen(note));
                 return true;
