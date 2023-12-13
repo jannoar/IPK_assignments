@@ -6,30 +6,23 @@ Fach::Fach(std::string name, std::string kuerzel, unsigned int ects)
 {}
 
 bool Fach::noteEintragen(double note) {
-    if (note >= 1.0 && note <= 5.0 && bestanden() == false) {
+    if (note >= 1.0 && note <= 5.0 && this->bestanden() == false) {
         this->_note = note;
         return true;
     }
     return false;
-    
 }
 
 bool Fach::bestanden() const {
-    if (_note <= 4.0)
-        return true;
-    return false;
+    return _note <= 4.0 ? true : false;
 }
 
 double Fach::gewerteteNote() const {
-    if (bestanden())
-        return _ects * _note;
-    return 0;
+    return bestanden() ? _ects * _note : 0;
 }
 
 unsigned int Fach::getECTS() const {
-    if (bestanden())
-       return _ects;
-    return 0;
+    return bestanden() ? _ects : 0;
 }
 
 std::string Fach::getName() const {
