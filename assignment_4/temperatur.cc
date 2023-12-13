@@ -15,7 +15,7 @@ double Temperatur::getCelsius()
     return _ktemperatur - 273.15; //Umrechnung in Grad Celcius 
 }
 
-double Temperatur::getFahrenheit()/
+double Temperatur::getFahrenheit()
 {
     return (_ktemperatur - 273.15) * 9 / 5 + 32; //Umrechnung in Grad Fahrenheit 
 }

@@ -1,5 +1,4 @@
 #include "temperatur.hh"
-#include "temperatur.cc"
 #include <iostream>
 
 int main()
