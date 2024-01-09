@@ -28,7 +28,6 @@ double FachListe::durchschnitt() {
             gewerteteNoten += f.gewerteteNote();
         }
     }
-    // return this->summeECTS() / bestandeneFaecher;
     return gewerteteNoten / bestandeneFaecher;
 }
 
@@ -42,7 +41,7 @@ std::vector<std::string> FachListe::list() {
 bool FachListe::noteEintragen(std::string kuerzel, double note) {
     for (Fach &f : this->_faecher) {
         if (f.getKuerzel() == kuerzel) {
-            if (f.noteEintragen(note));
+            if (f.noteEintragen(note))
                 return true;
         }
     }
