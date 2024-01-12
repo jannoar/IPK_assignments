@@ -60,6 +60,7 @@ public:
         return res;
     }
 
+    // d
     template<int dimension>
     std::array<std::array<matrixType, rows>, dimension> multiply(std::array<std::array<matrixType, dimension>, col> otherMat) {
         std::array<std::array<matrixType, rows>, dimension> res;
@@ -72,12 +73,6 @@ public:
                 res[i][j] = tempRes;
                 tempRes = 0;
             }  
-        }
-        for (auto a : res) {
-            for (auto b : a) {
-                std::cout << b << "|";
-            }
-            std::cout << "\n";
         }
         return res; 
     }
