@@ -1,20 +1,21 @@
 #include <iostream>
 #include <array>
 
-template<typename matrixType, int rows, int cols>
+// a
+template<typename matrixType, int col, int rows>
 class Matrix {
 public:
-    std::array<std::array<matrixType, rows>, cols> _mat; 
+    std::array<std::array<matrixType, col>, rows> _mat; 
     Matrix() {
-        for (int i = 0; i < rows; ++i) {
-            for (int j = 0; j < cols; j++) {
+        for (int i = 0; i < col; ++i) {
+            for (int j = 0; j < rows; j++) {
                 this->_mat[i][j] = 0;
             }
         }
     }
 
     void print() {
-        for (std::array<matrixType, rows> n : this->_mat) {
+        for (std::array<matrixType, col> n : this->_mat) {
             for (matrixType m : n) {
                 std::cout << m;
             }
@@ -26,20 +27,22 @@ public:
         return this->_mat[n][m];
     } 
     
-    std::array<std::array<matrixType, rows>, cols> transpose(std::array<std::array<matrixType, rows>, cols> m) {
-        std::array<std::array<matrixType, cols>, rows> newMatrix; 
-        for (int i = 0; i < rows; ++i) {
-            for (int j = 0; j < cols; ++j) {
+    // b
+    std::array<std::array<matrixType, col>, rows> transpose(std::array<std::array<matrixType, col>, rows> m) {
+        std::array<std::array<matrixType, rows>, col> newMatrix; 
+        for (int i = 0; i < col; ++i) {
+            for (int j = 0; j < rows; ++j) {
                 newMatrix[i][j] = m[j][i];
             }
         }
         return newMatrix;
     }
 
-    std::array<std::array<matrixType, rows>, cols> add(std::array<std::array<matrixType, rows>, cols> otherMat) {
-        std::array<std::array<matrixType, rows>, cols> res; 
-        for (int i = 0; i < rows; ++i) {
-            for (int j = 0; j < cols; j++) {
+    // c
+    std::array<std::array<matrixType, col>, rows> add(std::array<std::array<matrixType, col>, rows> otherMat) {
+        std::array<std::array<matrixType, col>, rows> res; 
+        for (int i = 0; i < col; ++i) {
+            for (int j = 0; j < rows; j++) {
                 res[i][j] = this->_mat[i][j] + otherMat[i][j];
             }
         }
@@ -47,17 +50,35 @@ public:
 
     }
 
-    std::array<std::array<matrixType, rows>, cols> sub(std::array<std::array<matrixType, rows>, cols> otherMat) {
-        std::array<std::array<matrixType, rows>, cols> res; 
-        for (int i = 0; i < rows; ++i) {
-            for (int j = 0; j < cols; j++) {
+    std::array<std::array<matrixType, col>, rows> sub(std::array<std::array<matrixType, col>, rows> otherMat) {
+        std::array<std::array<matrixType, col>, rows> res; 
+        for (int i = 0; i < col; ++i) {
+            for (int j = 0; j < rows; j++) {
                 res[i][j] = this->_mat[i][j] - otherMat[i][j];
             }
         }
         return res;
     }
 
-    std::array<std::array<matrixType, rows>, cols> multiply(std::array<std::array<matrixType, rows>, cols> otherMat) {
-
+    template<int dimension>
+    std::array<std::array<matrixType, rows>, dimension> multiply(std::array<std::array<matrixType, dimension>, col> otherMat) {
+        std::array<std::array<matrixType, rows>, dimension> res;
+        matrixType tempRes = 0;
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < dimension; ++j) {
+                for (int k = 0; k < col; ++k) {
+                    tempRes += (this->_mat[i][k] * otherMat[k][j]);
+                }
+                res[i][j] = tempRes;
+                tempRes = 0;
+            }  
+        }
+        for (auto a : res) {
+            for (auto b : a) {
+                std::cout << b << "|";
+            }
+            std::cout << "\n";
+        }
+        return res; 
     }
 };
