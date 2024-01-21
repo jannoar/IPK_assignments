@@ -67,10 +67,12 @@ HuffmanPointer Huffman::buildHuffmanTree(std::string& s)
   this->characterFrequencies = countCharacterFrequencies(s);
   std::priority_queue<WeightedHuffmanPointer, std::vector<WeightedHuffmanPointer>, std::greater<WeightedHuffmanPointer>> queue;
   std::map<char, int>::iterator it;
+
   for (it = characterFrequencies.begin(); it != characterFrequencies.end(); it++)
   {
     queue.push(std::make_pair(it->second, std::make_shared<HuffmanNode>(HuffmanNode(it->first))));
   }
+
   while (queue.size() != 1)
   {
     WeightedHuffmanPointer a = queue.top();
@@ -80,6 +82,5 @@ HuffmanPointer Huffman::buildHuffmanTree(std::string& s)
     queue.push(std::make_pair(a.first+b.first, std::make_shared<HuffmanNode>(a.second, b.second, ' ')));
   }
   
-  HuffmanPointer a;
-  return a;
+  return queue.top().second;
 }
