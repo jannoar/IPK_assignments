@@ -6,33 +6,32 @@ class BinaryTreeNode
 {
 private:
     T value; 
-    std::shared_ptr<T> left; 
-    std::shared_ptr<T> right;
+    std::shared_ptr<BinaryTreeNode<T>> left; 
+    std::shared_ptr<BinaryTreeNode<T>> right;
 public:
-    BinaryTreeNode(BinaryTreeNode l, BinaryTreeNode r, T value);
-    BinaryTreeNode();
-    ~BinaryTreeNode();
+    BinaryTreeNode(std::shared_ptr<BinaryTreeNode<T>> l, std::shared_ptr<BinaryTreeNode<T>> r, T value);
+    BinaryTreeNode(T value);
     T const getValue();
     T const getLeft();
-    T const getRight();
+    T const getReight();
     bool isLeaf();
 };
 template<typename T>
-BinaryTreeNode<T>::BinaryTreeNode(): left(nullptr), right(nullptr) {}
+BinaryTreeNode<T>::BinaryTreeNode(T v): left(nullptr), right(nullptr), value(v) {}
 template<typename T>
-BinaryTreeNode<T>::BinaryTreeNode(BinaryTreeNode<T> l, BinaryTreeNode<T> r, T v): left(l), right(r), value(v){}
+BinaryTreeNode<T>::BinaryTreeNode(std::shared_ptr<BinaryTreeNode<T>> l, std::shared_ptr<BinaryTreeNode<T>> r, T v): left(l), right(r), value(v){}
 
 template<typename T>
 T const BinaryTreeNode<T>::getLeft(){return this->left;}
 template<typename T>
-T const BinaryTreeNode<T>::getRight(){return this->right;}
+T const BinaryTreeNode<T>::getReight(){return this->right;}
 template<typename T>
 T const BinaryTreeNode<T>::getValue(){return this->value;}
 
 template<typename T>
 bool BinaryTreeNode<T>::isLeaf()
 {
-    if(this->left == nullptr && this->right == nullptr)
+    if(this->left == nullptr && this->reight == nullptr)
         return true; 
     return false;
 }
