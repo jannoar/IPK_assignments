@@ -14,7 +14,7 @@ public:
     ~BinaryTreeNode();
     T const getValue();
     T const getLeft();
-    T const getReight();
+    T const getRight();
     bool isLeaf();
 };
 template<typename T>
@@ -25,14 +25,14 @@ BinaryTreeNode<T>::BinaryTreeNode(BinaryTreeNode<T> l, BinaryTreeNode<T> r, T v)
 template<typename T>
 T const BinaryTreeNode<T>::getLeft(){return this->left;}
 template<typename T>
-T const BinaryTreeNode<T>::getReight(){return this->right;}
+T const BinaryTreeNode<T>::getRight(){return this->right;}
 template<typename T>
 T const BinaryTreeNode<T>::getValue(){return this->value;}
 
 template<typename T>
 bool BinaryTreeNode<T>::isLeaf()
 {
-    if(this->left == nullptr && this->reight == nullptr)
+    if(this->left == nullptr && this->right == nullptr)
         return true; 
     return false;
 }
