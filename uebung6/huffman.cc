@@ -36,10 +36,6 @@ std::string Huffman::decode(const BitVector& bv) {
   return "Hello";
 }
 
-void Huffman::generateHuffmanCodes(CodeMap& cm) {
-
-}
-
 // (g)
 Huffman::Huffman(std::string& s)
 {
@@ -62,6 +58,29 @@ bool Huffman::isWeightGreater(std::pair<int, T>& a, std::pair<int, T>& b)
   return a.first > b.first ? true : false;
 }
 
+void reit(HuffmanPointer hp, int lr, std::vector<std::string>& cm)
+{
+  if(hp->isLeaf())
+  {
+    if(lr == 0)cm.push_back("0");
+    if(lr == 1)cm.push_back("1");
+    cm.push_back(" " + hp->getValue());
+    return;
+  }
+  reit(hp->getLeft(), 0, cm);
+  reit(hp->getRight(), 1, cm);
+  if(lr == 0)cm.push_back("0");
+  if(lr == 1)cm.push_back("1");
+  return;
+}
+
+// (f)
+void Huffman::generateHuffmanCodes(CodeMap& cm)
+{
+  std::vector<std::string> bit;
+  reit(this->_nodePointer, -1, bit);
+}
+
 HuffmanPointer Huffman::buildHuffmanTree(std::string& s)
 {
   this->characterFrequencies = countCharacterFrequencies(s);
@@ -77,9 +96,8 @@ HuffmanPointer Huffman::buildHuffmanTree(std::string& s)
     queue.pop();
     WeightedHuffmanPointer b = queue.top();
     queue.pop();
-    queue.push(std::make_pair(a.first+b.first, std::make_shared<HuffmanNode>(a.second, b.second, ' ')));
+    queue.push(std::make_pair(a.first+b.first, std::make_shared<HuffmanNode>(HuffmanNode(a.second, b.second, ' '))));
   }
-  
-  HuffmanPointer a;
+  HuffmanPointer a = queue.top().second;
   return a;
 }
