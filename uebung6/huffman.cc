@@ -58,27 +58,34 @@ bool Huffman::isWeightGreater(std::pair<int, T>& a, std::pair<int, T>& b)
   return a.first > b.first ? true : false;
 }
 
-void reit(HuffmanPointer hp, int lr, std::vector<std::string>& cm)
+void gHMC(HuffmanPointer aktuellerKnoten, BitVector aktStelleVector, CodeMap& cm)
 {
-  if(hp->isLeaf())
-  {
-    if(lr == 0)cm.push_back("0");
-    if(lr == 1)cm.push_back("1");
-    cm.push_back(" " + hp->getValue());
-    return;
-  }
-  reit(hp->getLeft(), 0, cm);
-  reit(hp->getRight(), 1, cm);
-  if(lr == 0)cm.push_back("0");
-  if(lr == 1)cm.push_back("1");
-  return;
+    if(aktuellerKnoten->isLeaf()){ //Ende/Blatt erreicht
+        cm.insert({aktStelleVector, aktuellerKnoten->getValue()});
+
+    }else{//es geht weiter
+
+        //links = 0/false
+        aktStelleVector.push_back(false);
+        gHMC(aktuellerKnoten->getLeft(), aktStelleVector, cm);
+
+        aktStelleVector.pop_back();//
+
+        //rechts = 1/true
+        aktStelleVector.push_back(true);
+        gHMC(aktuellerKnoten->getRight(), aktStelleVector, cm);
+    }
 }
 
-// (f)
 void Huffman::generateHuffmanCodes(CodeMap& cm)
 {
-  std::vector<std::string> bit;
-  reit(this->_nodePointer, -1, bit);
+    BitVector emptyVec; //leerer Bitvector
+    gHMC(this->_nodePointer, emptyVec, cm);
+    CodeMap::iterator it;
+    for (it = cm.begin(); it != cm.end(); it++)
+    {
+      auto x = it->first;
+    }
 }
 
 HuffmanPointer Huffman::buildHuffmanTree(std::string& s)
