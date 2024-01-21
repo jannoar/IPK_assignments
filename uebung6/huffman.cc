@@ -3,6 +3,7 @@
 #include <functional>
 #include <queue>
 #include <iostream>
+#include <memory>
 
 // (h)
 bool sortByCode(const std::pair<char, BitVector>& p1, const std::pair<char, BitVector>& p2) {
@@ -64,26 +65,21 @@ bool Huffman::isWeightGreater(std::pair<int, T>& a, std::pair<int, T>& b)
 HuffmanPointer Huffman::buildHuffmanTree(std::string& s)
 {
   this->characterFrequencies = countCharacterFrequencies(s);
-  // std::priority_queue<std::pair<int, char>> queue;
-  std::priority_queue<WeightedHuffmanPointer, std::vector<WeightedHuffmanPointer>, HuffmanCompareFunction> queue;
-  std::map<int, HuffmanPointer>::iterator it;
+  std::priority_queue<WeightedHuffmanPointer, std::vector<WeightedHuffmanPointer>, std::greater<WeightedHuffmanPointer>> queue;
+  std::map<char, int>::iterator it;
   for (it = characterFrequencies.begin(); it != characterFrequencies.end(); it++)
   {
-    // queue.push(std::make_pair(it->second, it->first));
-    WeightedHuffmanPointer p;
-    p.first = it->first;
-    // queue.push();
-    //queue.push(std::make_pair(it->first, it->second));
+    queue.push(std::make_pair(it->second, std::make_shared<HuffmanNode>(HuffmanNode(it->first))));
   }
-  //auto f = queue.top().first;
-  //auto g = queue.top().second;
-  
-  while (!queue.empty()) {
-    std::cout << queue.top().first << std::endl;
-    std::cout << queue.top().second << std::endl;
+  while (queue.size() != 1)
+  {
+    WeightedHuffmanPointer a = queue.top();
     queue.pop();
+    WeightedHuffmanPointer b = queue.top();
+    queue.pop();
+    queue.push(std::make_pair(a.first+b.first, std::make_shared<HuffmanNode>(HuffmanNode(a.second, b.second, ' '))));
   }
-
+  
   HuffmanPointer a;
   return a;
 }
