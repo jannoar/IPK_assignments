@@ -70,7 +70,7 @@ public:
     GuthabenVertrag(double ppm, double sp, double betrag) : FixBetrag(betrag) {preisProMin=ppm; smsPreis=sp; guthaben = 0; abbuchungen = 0;}
     double berechneKosten()
     {
-        return  FixBetrag*abbuchungen;
+        return  FixBetrag * abbuchungen;
     }
     void verbraucheTelefonEinheiten(double x)
     {

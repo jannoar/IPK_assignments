@@ -93,6 +93,5 @@ int main() {
     } else {
         std::cout << "zero ist false (gleich 0)" << std::endl;
     }
-
     return 0;
 }
