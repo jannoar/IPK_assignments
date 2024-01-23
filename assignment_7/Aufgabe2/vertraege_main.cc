@@ -1,7 +1,7 @@
 #include <vector>
 #include <iostream>
 #include <memory>
-
+#include "vertraege.cc"
 #include "vertraege.hh"
 
 int main() {
